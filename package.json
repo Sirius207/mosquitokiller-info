@@ -1,0 +1,38 @@
+{
+  "name": "mosquitokiller-info",
+  "version": "0.0.0",
+  "description": "A GOOD PROJECT!",
+  "author": {
+    "name": "rapirent",
+    "email": "rapirent@gmail.com",
+    "url": ""
+  },
+  "main": "lib/index.js",
+  "keywords": [],
+  "type": "Gogo Frontend",
+  "homepage": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+index.html.git"
+  },
+  "bugs": {
+    "url": "index.html/issues"
+  },
+  "templateType": "Gogo Frontend",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.9.0",
+    "gulp-compass": "^2.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "^3.4.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0"
+  },
+  "dependencies": {
+    "canner-core": "^0.3.2",
+    "chalk": "^2.1.0",
+    "minimist": "^1.2.0"
+  }
+}
