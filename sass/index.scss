@@ -1,5 +1,32 @@
 $black-color: #333 ;
-h1{
-	background-color: $black-color;
-	color: white;
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: dimgray;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+#monitor {
+    fill: white;
+}
+
+#label {
+    color: white;
+}
+
+#info {
+    width: 500px;
+}
+
+#heatmap {
+    height: 450px;
+    display: inline-block;
+    width: 900px;
+}
+
+#heatmap text {
+    fill: white;
 }

@@ -9,6 +9,8 @@ var concat = require('gulp-concat');
 var rename = require('gulp-rename');
 
 var chalk = require('chalk');
+const connect = require("gulp-connect");
+
 
 /*
 	`gulp default`
@@ -24,17 +26,36 @@ gulp.task('sass',function(){
     	comments: false  // Don't include `comments`
 		}))
 		.pipe(minifyCSS())
-		.pipe(gulp.dest('dist/css'))
+    .pipe(gulp.dest('dist/css'))
+    .pipe(connect.reload())
 })
+
+gulp.task('server', function () {
+  connect.server({
+    root: './',
+    livereload: true,
+    port: 8000,
+    /*
+    TODO: Use middleware to transfer 'index.html' to 'index'
+    middleware: function(connect, opt) {
+      return [historyApiFallback({
+        'water': '/water.html'
+      })]
+    }
+    */
+  });
+})
+
 
 gulp.task('js', function(){
 	return gulp.src(['./js/**/*.js'])
-		.pipe(plumber())	
+		.pipe(plumber())
 		.pipe(uglify())
 		.pipe(rename(function(path){
 			logPath(path , "yellow");
     }))
-		.pipe(gulp.dest('dist/js'))
+    .pipe(gulp.dest('dist/js'))
+    .pipe(connect.reload())
 })
 
 gulp.task('watch',function(){
@@ -42,7 +63,8 @@ gulp.task('watch',function(){
   gulp.watch(['./js/**/*.js'], ['js']);
 })
 
-gulp.task('default',['sass','js','watch']);
+
+gulp.task('default',['sass','js','watch','server']);
 
 
 /*
@@ -51,7 +73,7 @@ gulp.task('default',['sass','js','watch']);
 	All 'lib' js to all.min.js
   When you need , then you do it .
   -
-	If u need to concat , u can rewrite minify-css like this... 
+	If u need to concat , u can rewrite minify-css like this...
   gulp.task('minify-css',['concate-css'],function(){
     ...
   })
@@ -99,7 +121,7 @@ gulp.task('minify-js', function(){
 })
 
 /*
-	`gulp image` 
+	`gulp image`
 	When your project is completed , you can compress images
 */
 gulp.task('image', function () {

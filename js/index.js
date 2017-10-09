@@ -1,1 +1,3 @@
-console.log('Im JS File');
+(function() {
+  var argv = location.search;
+  })();
