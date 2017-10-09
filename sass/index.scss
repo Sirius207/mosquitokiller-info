@@ -9,6 +9,12 @@ body {
     overflow-x: hidden;
 }
 
+.ui.borderless.center.aligned.container {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    display: block;
+}
+
 #monitor {
     fill: white;
 }
@@ -18,7 +24,7 @@ body {
 }
 
 #info {
-    width: 500px;
+    display: inline-block;
 }
 
 #heatmap {
@@ -34,4 +40,17 @@ body {
 rect.bordered {
     stroke: #E6E6E6;
     stroke-width:2px;
+}
+
+#map {
+    position: relative;
+    height: 200px;
+    width: 300px;
+}
+
+.ui.inverted.fixed.large.table {
+    background-color: dimgray;
+    th {
+        background-color: inherit;
+    }
 }
