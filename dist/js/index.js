@@ -1,1 +1,1 @@
-location.search;
+!function(){var a=location.search;args=a.split("?")[1],console.log(args),API="http://140.116.249.228:3000/apis/counts?formatBy=hour&lampID="+args,heatmapChart(datasets[0]);$.get("./test.json",function(a){var t=[],o=1;for(var r in a){for(var s=1;s<25;s++)a[r].hasOwnProperty(s)?t.push({value:+a[r][s].sum,date:r,day:+o,hour:+s}):t.push({value:0,date:r,day:+o,hour:+s});o++}heatmapChart(t),console.log(t)})}();

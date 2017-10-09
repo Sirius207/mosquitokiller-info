@@ -1,86 +1,78 @@
 var margin = { top: 30, right: 0, bottom: 0, left: 30 },
-  width = $('#heatmap').width() - margin.left - margin.right,
-  height = 430 - margin.top - margin.bottom,
-  gridSize = Math.floor(width / 24),
-  legendElementWidth = gridSize*2,
-  buckets = 9,
-  days = ['一', '二', '三', '四', '五', '六', '日'],
-  times = ['1', '2', '3', '4', '5', '6', '7', '8',
-           '9', '10', '11', '12'],
-  datasets = ['/week_data.tsv'],
-  opacityRange = [0.10, 1],
-  colorInterpolate = d3.interpolateRgb;
-
+width = $('#heatmap').width() - margin.left - margin.right,
+height = 700 - margin.top - margin.bottom,
+textSize = 100;
+gridSize = Math.floor( height  / 25),
+legendElementWidth = gridSize*2,
+buckets = 9,
+days = ['一', '二', '三', '四', '五', '六', '日'],
+times = ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00',
+         '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
+         '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
+        '23:00', '24:00']
+datasets = ['/week_data.tsv'],
+opacityRange = [0.10, 1],
+colorInterpolate = d3.interpolateRgb;
+//#63be7b #8fca7d #bcd780 #e8e482 #ffd981 #fcb47a #fa8f73 #f8696b
 
 var color = d3.scale.linear()
-  .range(['#367F7E', '#83FFE4'])
-  .interpolate(colorInterpolate)
+              .range(['#367F7E', '#83FFE4'])
+              .interpolate(colorInterpolate)
 
 var opacity = d3.scale.linear()
-    .range(opacityRange);
+                .range(opacityRange);
 
 var svg = d3.select('#heatmap').append('svg')
-    .attr('width', width + margin.left + margin.right)
-    .attr('height', height + margin.top + margin.bottom)
-    .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('width', width + margin.left + margin.right)
+  .attr('height', height + margin.top + margin.bottom)
+  .append('g')
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
 var dayLabels = svg.selectAll('.dayLabel')
-    .data(days)
-    .enter().append('text')
-      .text(function (d) { return d; })
-      .attr('x', 0)
-      .attr('y', function (d, i) { return i * gridSize; })
-      .style('text-anchor', 'end')
-      .attr('transform', 'translate(-6,' + gridSize / 1.5 + ')')
-      .attr('class', function (d, i) { return ((i >= 0 && i <= 4) ? 'dayLabel mono axis axis-workweek' : 'dayLabel mono axis'); });
+  .data(days)
+  .enter().append('text')
+    .text(function (d) { return d; })
+    .attr('x', function(d,i) {return i* textSize; })
+    .attr('y', 0)
+    .style('text-anchor', 'end')
+    .attr('transform', 'translate(' + textSize / 1.5 + ', -6)')
+    .attr('class', function (d, i) { return ((i >= 0 && i <= 4) ? 'dayLabel mono axis axis-workweek' : 'dayLabel mono axis'); });
 
 var timeLabels = svg.selectAll('.timeLabel')
-    .data(times)
-    .enter().append('text')
-      .text(function(d) { return d + '時'; })
-      .attr('x', function(d, i) { return i * gridSize; })
-      .attr('y', 8*gridSize)
-      .style('text-anchor', 'middle')
-      .attr('transform', 'translate(' + gridSize / 2 + ', -6)')
-      .attr('class', function(d, i) { return ((i >= 7 && i <= 16) ? 'timeLabel mono axis axis-worktime' : 'timeLabel mono axis'); })
+  .data(times)
+  .enter().append('text')
+    .text(function(d) { return d; })
+    .attr('x', 0)
+    .attr('y', function(d, i) { return i * gridSize; })
+    .style('text-anchor', 'middle')
+    .attr('transform', 'translate(-10, ' + gridSize / 1.5 + ')')
+    .attr('class', function(d, i) { return ((i >= 7 && i <= 16) ? 'timeLabel mono axis axis-worktime' : 'timeLabel mono axis'); })
 
-var heatmapChart = function(tsvFile) {
+var heatmapChart = function(data) {
+  var colorScale = color
+      .domain([0, d3.max(data, function (d) { return d.value; })])
 
-  d3.tsv(tsvFile, function(d) {
-    return {
-      day: +d.day,
-      hour: +d.hour,
-      value: +d.value
-    };
-  },
-  function(error, data) {
-    var colorScale = color
-        .domain([0, d3.max(data, function (d) { return d.value; })])
+  var opacityScale = opacity
+      .domain([0, d3.max(data, function (d) { return d.value; })])
 
-    var opacityScale = opacity
-        .domain([0, d3.max(data, function (d) { return d.value; })])
+  var cards = svg.selectAll('.hour')
+      .data(data, function(d) {return d.day+':'+d.hour;});
 
-    var cards = svg.selectAll('.hour')
-        .data(data, function(d) {return d.day+':'+d.hour;});
+  cards.append('title');
 
-    cards.append('title');
+  cards.enter().append('rect')
+      .attr('x', function(d) { return (d.day - 1) * textSize + 12; })
+      .attr('y', function(d) { return (d.hour - 1) * gridSize + 0.1; })
+      .attr('class', 'hour bordered')
+      .attr('width', textSize)
+      .attr('height', gridSize)
+      .style('fill', color[0]);
 
-    cards.enter().append('rect')
-        .attr('x', function(d) { return (d.hour - 1) * gridSize + 0.1; })
-        .attr('y', function(d) { return (d.day - 1) * gridSize + 0.1; })
-        .attr('class', 'hour bordered')
-        .attr('width', gridSize)
-        .attr('height', gridSize)
-        .style('fill', color[0]);
+  cards.transition().duration(1000)
+      .style('fill', function(d) { return colorScale(d.value); })
+      .style('fill-opacity', function (d) { return opacityScale(d.value)});
 
-    cards.transition().duration(1000)
-        .style('fill', function(d) { return colorScale(d.value); })
-        .style('fill-opacity', function (d) { return opacityScale(d.value)});
-
-    cards.select('title').text(function(d) { return d.value; });
-    cards.exit().remove();
-  });
+  cards.exit().remove();
 };
 
-heatmapChart(datasets[0]);
+// heatmapChart(datasets[0]);
