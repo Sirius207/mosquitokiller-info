@@ -1,4 +1,4 @@
-var margin = { top: 30, right: 0, bottom: 0, left: 30 },
+var margin = { top: 30, right: 0, bottom: 0, left: 40 },
 width = $('#heatmap').width() - margin.left - margin.right,
 height = 700 - margin.top - margin.bottom,
 textSize = 100;
@@ -29,7 +29,7 @@ var timeLabels = svg.selectAll('.timeLabel')
     .attr('x', 0)
     .attr('y', function(d, i) { return i * gridSize; })
     .style('text-anchor', 'middle')
-    .attr('transform', 'translate(-10, ' + gridSize / 1.5 + ')')
+    .attr('transform', 'translate(-15, ' + gridSize / 1.5 + ')')
     .attr('class', function(d, i) { return ((i >= 7 && i <= 16) ? 'timeLabel mono axis axis-worktime' : 'timeLabel mono axis'); })
 
 var heatmapChart = function(data) {
