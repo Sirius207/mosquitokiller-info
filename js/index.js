@@ -4,7 +4,7 @@
   args = argv.split('?')[1]
   console.log(args)
   API = 'http://140.116.249.228:3000/apis/counts?formatBy=hour&lampID=' + args;
-  $.get('./test.json', function(data) {
+  $.get('/test.json', function(data) {
     var json = [];
     var date = [];
     var day = 1;
