@@ -1,17 +1,17 @@
-var margin = { top: 30, right: 0, bottom: 0, left: 40 },
+var margin = { top: 30, right: 0, bottom: 0, left: 100 },
 width = $('#heatmap').width() - margin.left - margin.right,
 height = 700 - margin.top - margin.bottom,
-textSize = 100;
+textSize = 60;
 gridSize = Math.floor( height  / 25),
 legendElementWidth = gridSize*2,
-times = ['01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00',
-         '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00',
-         '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00',
-        '23:00', '24:00']
-opacityRange = [0.10, 1];
+times = ['02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00',
+         '18:00', '20:00', '22:00', '24:00']
+opacityRange = [0.50, 1];
+colorInterpolate = d3.interpolateRgb;
 
 var color = d3.scale.linear()
-              .range(['#63be7b','#8fca7d','#bcd780','#e8e482','#ffd981','#fcb47a','#fa8f73','#f8696b'])
+            .range(['#367F7E', '#83FFE4'])
+            .interpolate(colorInterpolate)
 
 var opacity = d3.scale.linear()
                 .range(opacityRange);
@@ -26,18 +26,18 @@ var timeLabels = svg.selectAll('.timeLabel')
   .data(times)
   .enter().append('text')
     .text(function(d) { return d; })
-    .attr('x', 0)
-    .attr('y', function(d, i) { return i * gridSize; })
+    .attr('y', 0)
+    .attr('x', function(d, i) { return i * textSize + 24; })
     .style('text-anchor', 'middle')
-    .attr('transform', 'translate(-15, ' + gridSize / 1.5 + ')')
+    .attr('transform', 'translate(' + textSize + ', 0)')
     .attr('class', function(d, i) { return ((i >= 7 && i <= 16) ? 'timeLabel mono axis axis-worktime' : 'timeLabel mono axis'); })
 
 var heatmapChart = function(data) {
   var colorScale = color
-      .domain([0, 8, d3.max(data, function (d) { return d.value; })])
+      .domain([0, d3.max(data, function (d) { return d.value; })])
 
   var opacityScale = opacity
-      .domain([0, d3.max(data, function (d) { return d.value; })])
+      .domain([1, d3.max(data, function (d) { return d.value; })])
 
   var cards = svg.selectAll('.hour')
       .data(data, function(d) {return d.day+':'+d.hour;});
@@ -45,8 +45,8 @@ var heatmapChart = function(data) {
   cards.append('title');
 
   cards.enter().append('rect')
-      .attr('x', function(d) { return (d.day - 1) * textSize + 12; })
-      .attr('y', function(d) { return (d.hour - 1) * gridSize + 0.1; })
+      .attr('x', function(d) { return +(d.hour / 2) * textSize; })
+      .attr('y', function(d) { return (d.day - 1) * gridSize + 12; })
       .attr('class', 'hour bordered')
       .attr('width', textSize)
       .attr('height', gridSize)
@@ -64,10 +64,10 @@ var drawDayLable = function(array) {
                     .data(array)
                     .enter().append('text')
                       .text(function (d) { return d; })
-                      .attr('x', function(d,i) {return i* textSize; })
-                      .attr('y', 0)
+                      .attr('x', 0)
+                      .attr('y', function(d,i) {return i* gridSize + 12; })
                       .style('text-anchor', 'end')
-                      .attr('transform', 'translate(' + textSize + ', -6)')
+                      .attr('transform', 'translate(50, ' + gridSize / 1.5 + ')')
                       .attr('class', function (d, i) {
                         return ((i >= 0 && i <= 4) ? 'dayLabel mono axis axis-workweek' : 'dayLabel mono axis');
                       });

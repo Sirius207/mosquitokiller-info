@@ -31,45 +31,47 @@
 </head>
 
 <body>
-  <div class="ui borderless center aligned text container">
+  <div class="ui borderless center aligned container">
     <h4 class="ui horizontal divider inverted header">掌蚊資訊</h4>
-    <div class="ui grid">
-      <div class="seven wide column" >
-        <div id="map"></div>
-      </div>
-      <div class="eight wide column" id="info">
-        <div class="ui left aligned container">
-          <table class="ui inverted fixed large table">
-            <tbody>
-              <tr>
-                <td class="right aligned">
-                  <i class="history large icon"></i>
-                  最後更新：
-                </td>
-                <td>
-                  XXXX
-                </td>
-              </tr>
-              <tr>
-                <td class="right aligned">
-                  <i class="cloud large icon"></i>
-                  昨日總數：
-                </td>
-                <td>
-                  XXXX
-                </td>
-              </tr>
-              <tr>
-                <th colspan="2">
-                  <div class="ui labeled button">
-                    <div class="ui red button">
-                      <i class="large talk icon"></i>我有問題
+    <div class="ui text container">
+      <div class="ui grid">
+        <div class="seven wide column" >
+          <div id="map"></div>
+        </div>
+        <div class="eight wide column" id="info">
+          <div class="ui left aligned container">
+            <table class="ui inverted fixed large table">
+              <tbody>
+                <tr>
+                  <td class="right aligned">
+                    <i class="history large icon"></i>
+                    最後更新：
+                  </td>
+                  <td id="lastDate">
+                    未找到
+                  </td>
+                </tr>
+                <tr>
+                  <td class="right aligned">
+                    <i class="cloud large icon"></i>
+                    昨日總數：
+                  </td>
+                  <td id="yesterdayData">
+                    未找到
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    <div class="ui labeled button">
+                      <div class="ui red button">
+                        <i class="large talk icon"></i>我有問題
+                      </div>
                     </div>
-                  </div>
-                </th>
-              </tr>
-            </tbody>
-          </table>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -84,10 +86,6 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/form.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/transition.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/dropdown.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/dimmer.min.js"></script>
 <script src="./dist/js/heatmap.js"></script>
 <script src="./dist/js/map.js"></script>
 <script src="./dist/js/index.js"></script>
