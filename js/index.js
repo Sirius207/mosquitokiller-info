@@ -1,8 +1,8 @@
 (function() {
   var argv = location.search;
   var args = argv.split('?')[1]
-  var COUNT_API = 'http://140.116.249.228:3000/apis/counts?formatBy=hour&lampID=' + args + '&limit=7'
-  var INFO_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis//lamps/' + args + '?key=hash'
+  var COUNT_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis/counts?formatBy=hour&lampID=' + args + '&limit=7'
+  var INFO_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis/lamps/' + args + '?key=hash'
   var COUNT = $.ajax({
     type: 'get',
     url: COUNT_API,
@@ -50,6 +50,7 @@
       console.log(data)
       data['id'] = args
       initMap(data)
+
     },
     fail: function(data) {
       console.log(data)
