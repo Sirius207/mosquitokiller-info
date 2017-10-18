@@ -1,4 +1,4 @@
-$black-color: rgba(0,0,0,0.95) ;
+$black-color: rgba(0,0,0,0.87) ;
 
 body {
     height: 100%;
@@ -46,11 +46,4 @@ rect.bordered {
     position: relative;
     height: 200px;
     width: 300px;
-}
-
-.ui.inverted.fixed.large.table {
-    background-color: $black-color;
-    th {
-        background-color: inherit;
-    }
 }
