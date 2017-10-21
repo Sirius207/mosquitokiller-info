@@ -1,8 +1,10 @@
 (function() {
   var argv = location.search;
   var args = argv.split('?')[1]
-  var COUNT_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis/counts?formatBy=hour&lampID=' + args + '&limit=7'
+  var COUNT_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis/counts?formatBy=hour&lampHashID=' + args + '&limit=7'
   var INFO_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis/lamps/' + args + '?key=hash'
+  var YESTERDAY_API = 'https://mosquitokiller.csie.ncku.edu.tw/apis/counts?formatBy=date&lampHashID=' + args + '&limit=1'
+  var LAST_UPDATE = 'https://mosquitokiller.csie.ncku.edu.tw/apis/counts?lampHashID=' + args + '&limit=1'
   var COUNT = $.ajax({
     type: 'get',
     url: COUNT_API,
@@ -50,7 +52,32 @@
       console.log(data)
       data['id'] = args
       initMap(data)
-
+    },
+    fail: function(data) {
+      console.log(data)
+    }
+  })
+  $.ajax({
+    type: 'get',
+    url : YESTERDAY_API,
+    crossDomain: true,
+    contentType: 'application/json',
+    success: function(data) {
+      var date = new Date()
+      date.setDate(date.getDate() - 1)
+      $('#yesterdayData').text(data[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()][args]['sum'])
+    },
+    fail: function(data) {
+      console.log(data)
+    }
+  })
+  $.ajax({
+    type: 'get',
+    url : LAST_UPDATE,
+    crossDomain: true,
+    contentType: 'application/json',
+    success: function(data) {
+      $('#lastDate').text(data[0]['created_at'].replace(/T\S*/g,''))
     },
     fail: function(data) {
       console.log(data)
