@@ -65,7 +65,7 @@
     success: function(data) {
       var date = new Date()
       date.setDate(date.getDate() - 1)
-      $('#yesterdayData').text(data[date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()][args]['sum'])
+      $("#yesterdayData").text(data[date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + ("00" + date.getDate()).slice(-2)][args]["sum"])
     },
     fail: function(data) {
       console.log(data)
